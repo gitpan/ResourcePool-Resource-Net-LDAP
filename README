@@ -6,10 +6,8 @@ See COPYRIGHT section in the ResourcePool::Resource::Net::LDAP(3pm) manpage.
 
 Recent Changes
 --------------
-  *  Support for start_tls has been added. 
-
-  *  A little bit dead code has been removed which causes a minor 
-     performance improvement. 
+  *  Export of ':all' from Net::LDAP::Constants has been replaced by 
+     the actually required constants only. 
 
 Installation
 ------------
@@ -38,8 +36,13 @@ Obtaining the most recent version
 
         http://www.cpan.org/SITES.html
 
-More information
-----------------
-    Can be found at the ResourcePool homepage
+How to contribute?
+------------------
+    Submit patches for bugs you discovered (or report the at least),
+    upload your own resource bindings to CPAN.
 
-        http://www.fatalmind.com/projects/ResourcePool/
+Authors contact
+---------------
+       e-mail: mws@fatalmind.com
+     homepage: http://www.fatalmind.com/
+    whishlist: http://www.amazon.de/exec/obidos/wishlist/1JW6LC92SAK62/

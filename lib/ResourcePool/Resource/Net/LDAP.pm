@@ -1,18 +1,17 @@
 #*********************************************************************
 #*** ResourcePool::Resource::Net::LDAP
 #*** Copyright (c) 2002,2003 by Markus Winand <mws@fatalmind.com>
-#*** $Id: LDAP.pm,v 1.3 2003/01/06 11:27:26 mws Exp $
+#*** $Id: LDAP.pm,v 1.5 2003/09/25 17:34:08 mws Exp $
 #*********************************************************************
 
 package ResourcePool::Resource::Net::LDAP;
 
 use vars qw($VERSION @ISA);
 use strict;
-use Net::LDAP;
-use Net::LDAP::Constant qw(:all);
+use Net::LDAP qw(LDAP_SUCCESS);
 use ResourcePool::Resource;
 
-$VERSION = "1.0001";
+$VERSION = "1.0002";
 push @ISA, "ResourcePool::Resource";
 
 sub new($$$@) {

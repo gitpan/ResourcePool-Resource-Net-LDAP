@@ -1,4 +1,9 @@
-Changelog for ResourcePool
+Changelog for ResourcePool::Resource::Net::LDAP
+
+V1.0002 - 2003-09-26
+
+  *  Export of ':all' from Net::LDAP::Constants has been replaced by 
+     the actually required constants only. 
 
 V1.0001 - 2003-01-06
 

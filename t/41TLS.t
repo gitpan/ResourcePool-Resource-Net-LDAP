@@ -2,15 +2,14 @@
 #*********************************************************************
 #*** t/41TLS.t
 #*** Copyright (c) 2003 by Markus Winand <mws@fatalmind.com>
-#*** $Id: 41TLS.t,v 1.2 2003/01/06 13:48:32 mws Exp $
+#*** $Id: 41TLS.t,v 1.3 2003/09/25 17:23:52 mws Exp $
 #*********************************************************************
 use strict;
 use Test;
 use Data::Dumper;
 
 use ResourcePool;
-use Net::LDAP; 
-use Net::LDAP::Constant qw(:all); 
+use Net::LDAP qw(LDAP_SUCCESS); 
 use ResourcePool::Factory::Net::LDAP; 
 
 BEGIN { plan tests => 8; }

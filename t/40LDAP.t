@@ -2,15 +2,14 @@
 #*********************************************************************
 #*** t/40LDAP.t
 #*** Copyright (c) 2002,2003 by Markus Winand <mws@fatalmind.com>
-#*** $Id: 40LDAP.t,v 1.5 2003/01/06 13:36:53 mws Exp $
+#*** $Id: 40LDAP.t,v 1.6 2003/09/25 17:23:52 mws Exp $
 #*********************************************************************
 use strict;
 use Test;
 use Data::Dumper;
 
 use ResourcePool;
-use Net::LDAP; 
-use Net::LDAP::Constant qw(:all); 
+use Net::LDAP qw(LDAP_SUCCESS); 
 use ResourcePool::Factory::Net::LDAP; 
 
 BEGIN { plan tests => 13; }

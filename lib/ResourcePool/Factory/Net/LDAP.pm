@@ -1,7 +1,7 @@
 #*********************************************************************
 #*** ResourcePool::Factory::Net::LDAP
 #*** Copyright (c) 2002,2003 by Markus Winand <mws@fatalmind.com>
-#*** $Id: LDAP.pm,v 1.4 2003/01/06 11:27:25 mws Exp $
+#*** $Id: LDAP.pm,v 1.5 2003/09/25 17:34:06 mws Exp $
 #*********************************************************************
 
 package ResourcePool::Factory::Net::LDAP;
@@ -12,7 +12,7 @@ use ResourcePool::Resource::Net::LDAP;
 use Data::Dumper;
 
 push @ISA, "ResourcePool::Factory";
-$VERSION = "1.0001";
+$VERSION = "1.0002";
 
 ####
 # Some notes about the singleton behavior of this class.
