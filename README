@@ -6,8 +6,10 @@ See COPYRIGHT section in the ResourcePool::Resource::Net::LDAP(3pm) manpage.
 
 Recent Changes
 --------------
-  *  This package was previously included in the ResourcePool core 
-     distribution. 
+  *  Support for start_tls has been added. 
+
+  *  A little bit dead code has been removed which causes a minor 
+     performance improvement. 
 
 Installation
 ------------

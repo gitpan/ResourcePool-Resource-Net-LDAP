@@ -1,7 +1,7 @@
 #*********************************************************************
 #*** Makefile.PL
 #*** Copyright (c) 2002 by Markus Winand <mws@fatalmind.com>
-#*** $Id: Makefile.PL,v 1.1 2002/12/22 15:15:36 mws Exp $
+#*** $Id: Makefile.PL,v 1.3 2003/01/06 09:55:50 mws Exp $
 #*********************************************************************
 
 use ExtUtils::MakeMaker qw(prompt WriteMakefile);
@@ -12,7 +12,7 @@ use Data::Dumper;
 my %opts;
 
 $opts{NAME}      = 'ResourcePool::Resource::Net::LDAP',
-$opts{VERSION}   = '1.0000';
+$opts{VERSION}   = '1.0001';
 $opts{PREREQ_PM} = {'ResourcePool' => '1.0000'
                    ,'Net::LDAP'};
 

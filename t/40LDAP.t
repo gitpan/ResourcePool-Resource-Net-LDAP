@@ -1,8 +1,8 @@
 #! /usr/bin/perl -w
 #*********************************************************************
 #*** t/40LDAP.t
-#*** Copyright (c) 2002 by Markus Winand <mws@fatalmind.com>
-#*** $Id: 40LDAP.t,v 1.4 2002/12/30 21:48:22 mws Exp $
+#*** Copyright (c) 2002,2003 by Markus Winand <mws@fatalmind.com>
+#*** $Id: 40LDAP.t,v 1.5 2003/01/06 13:36:53 mws Exp $
 #*********************************************************************
 use strict;
 use Test;
@@ -13,7 +13,7 @@ use Net::LDAP;
 use Net::LDAP::Constant qw(:all); 
 use ResourcePool::Factory::Net::LDAP; 
 
-BEGIN { plan tests => 11; }
+BEGIN { plan tests => 13; }
 
 sub ldap($$) {
 	my ($host, $ldapok) = @_;
@@ -60,12 +60,28 @@ if (ldap($host, $ldapok)) {
 	ok (defined $r2);
 }
 
+if (ldap($host, $ldapok)) {
+	my ($f2, $r2);
+	$f2 = ResourcePool::Factory::Net::LDAP->new($host);
+	$f2->bind(@bindparam);
+	$r2 = $f2->create_resource();
+	ok (defined $r2);
+}
+
 my @wrongbindparam = @bindparam;
 $wrongbindparam[0] = "cn=nobody, dc=fatalmind, dc=com";
 
 if (ldap($host, $ldapok)) {
 	my ($f, $r);
 	$f = ResourcePool::Factory::Net::LDAP->new($host, [@wrongbindparam]);
+	$r = $f->create_resource();
+	ok (!defined $r);
+}
+
+if (ldap($host, $ldapok)) {
+	my ($f, $r);
+	$f = ResourcePool::Factory::Net::LDAP->new($host);
+	$f->bind(@wrongbindparam);
 	$r = $f->create_resource();
 	ok (!defined $r);
 }

@@ -9,3 +9,4 @@ lib/ResourcePool/Factory/Net/LDAP.pod
 t/02FactorySingleton.t
 t/03ResourcePoolSingleton.t
 t/40LDAP.t
+t/41TLS.t

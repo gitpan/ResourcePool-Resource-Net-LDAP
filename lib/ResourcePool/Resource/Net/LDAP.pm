@@ -1,7 +1,7 @@
 #*********************************************************************
 #*** ResourcePool::Resource::Net::LDAP
-#*** Copyright (c) 2002 by Markus Winand <mws@fatalmind.com>
-#*** $Id: LDAP.pm,v 1.1 2002/12/22 15:15:38 mws Exp $
+#*** Copyright (c) 2002,2003 by Markus Winand <mws@fatalmind.com>
+#*** $Id: LDAP.pm,v 1.3 2003/01/06 11:27:26 mws Exp $
 #*********************************************************************
 
 package ResourcePool::Resource::Net::LDAP;
@@ -12,17 +12,18 @@ use Net::LDAP;
 use Net::LDAP::Constant qw(:all);
 use ResourcePool::Resource;
 
-$VERSION = "1.0000";
+$VERSION = "1.0001";
 push @ISA, "ResourcePool::Resource";
 
 sub new($$$@) {
-        my $proto = shift;
-        my $class = ref($proto) || $proto;
-        my $self = $class->SUPER::new();
+	my $proto = shift;
+	my $class = ref($proto) || $proto;
+	my $self = $class->SUPER::new();
 	$self->{Factory} = shift;
-        my $host   = shift;
+	my $host   = shift;
 	$self->{BindOptions} = defined $_[0] ? shift: [];
 	my $NewOptions = defined $_[0] ? shift: [];
+	$self->{start_tlsOptions} = shift;
 
 	$self->{ldaph} = Net::LDAP->new($host, @{$NewOptions});
 	if (! defined $self->{ldaph}) {
@@ -32,8 +33,11 @@ sub new($$$@) {
 		return undef;
 	}
 	
-        bless($self, $class);
+	bless($self, $class);
 
+	if (! defined $self->start_tls($self->{start_tlsOptions})) {
+		return undef;
+	} 
 	# bind returns $self on success
 	return $self->bind($self->{BindOptions});
 }
@@ -63,6 +67,23 @@ sub DESTROY($) {
 sub precheck($) {
 	my ($self) = @_;
 	return $self->bind($self->{BindOptions});
+}
+
+sub start_tls($$) {
+	my ($self, $tlsoptions) = @_;
+	if (defined $tlsoptions) {
+		my $rc = $self->{ldaph}->start_tls(@{$tlsoptions});
+		if ($rc->code != LDAP_SUCCESS) {
+			swarn("ResourcePool::Resource::Net::LDAP: "
+				. "start_tls to '%s' failed: %s\n"
+				, $self->{Factory}->info()
+				, $rc->error()
+			);
+			delete $self->{ldaph};
+			return undef;
+		}
+	}
+	return $self;
 }
 
 

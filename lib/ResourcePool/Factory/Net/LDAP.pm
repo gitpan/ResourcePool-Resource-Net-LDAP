@@ -1,7 +1,7 @@
 #*********************************************************************
 #*** ResourcePool::Factory::Net::LDAP
-#*** Copyright (c) 2002 by Markus Winand <mws@fatalmind.com>
-#*** $Id: LDAP.pm,v 1.1 2002/12/22 15:15:38 mws Exp $
+#*** Copyright (c) 2002,2003 by Markus Winand <mws@fatalmind.com>
+#*** $Id: LDAP.pm,v 1.4 2003/01/06 11:27:25 mws Exp $
 #*********************************************************************
 
 package ResourcePool::Factory::Net::LDAP;
@@ -12,41 +12,37 @@ use ResourcePool::Resource::Net::LDAP;
 use Data::Dumper;
 
 push @ISA, "ResourcePool::Factory";
-$VERSION = "1.0000";
+$VERSION = "1.0001";
 
 ####
 # Some notes about the singleton behavior of this class.
 # 1. the constructor does not return a singleton reference!
 # 2. there is a seperate function called singelton() which will return a
 #    singleton reference
-# this change was introduces with ResourcePool 1.0000 to allow more flexible
+# this change was introduces with ResourcePool 0.9909 to allow more flexible
 # factories (e.g. factories which do not require all parameters to their 
 # constructor) an example of such an factory is the Net::LDAP factory.
 
 sub new($@) {
-        my ($proto) = shift;
-        my $class = ref($proto) || $proto;
-	my $key;
-	my $d = Data::Dumper->new([@_]);
-	$d->Indent(0);
-	$key = $d->Dump();
-	my $self = $class->SUPER::new("Net::LDAP".$key);# parent uses Singleton
+	my ($proto) = shift;
+	my $class = ref($proto) || $proto;
+	my $self = $class->SUPER::new();
 
 	if (! exists($self->{host})) {
         	$self->{host} = shift;
 		if (defined $_[0] && ref($_[0]) ne "ARRAY") {
-		        $self->{BindOptions} = [];
-			$self->{NewOptions} = [@_];
+			$self->{BindOptions} = [];
+			$self->{NewOptions}  = [@_];
 		} else {
 			# old syntax, compatiblity...
-		        $self->{BindOptions} = defined $_[0]?shift: [];
-			$self->{NewOptions} = defined $_[0]?shift: [];
+			$self->{BindOptions} = defined $_[0]?shift: [];
+			$self->{NewOptions}  = defined $_[0]?shift: [];
 		}
 	}
 	
-        bless($self, $class);
+	bless($self, $class);
 
-        return $self;
+	return $self;
 }
 
 sub bind($@) {
@@ -54,23 +50,18 @@ sub bind($@) {
 	$self->{BindOptions} = [@_];
 }
 
-#sub singleton($) {
-#	my ($self) = @_;	
-#	my $singleton = $self->SUPER::new($self->serialize()); 
-#						# parent uses Singleton
-#	if (!$singleton->{initialized}) {
-#		%{$singleton} = %{$self};
-#		$singleton->{initialized} = 1;
-#	}
-#	return $singleton;
-#}
-#
-#sub serialize($) {
-#	my ($self) = @_;	
-#	my $d = Data::Dumper->new($self);
-#	$d->Indent(0);
-#	return $d->Dump();
-#}
+sub start_tls($@) {
+	my $self = shift;
+	$self->{start_tlsOptions} = [@_];
+}
+
+sub mk_singleton_key($) {
+	my $d = Data::Dumper->new([$_[0]]);
+	$d->Indent(0);
+	$d->Terse(1);
+	return $d->Dump();
+}
+
 
 sub create_resource($) {
 	my ($self) = @_;
@@ -78,6 +69,7 @@ sub create_resource($) {
 			,	$self->{host}
 			,	$self->{BindOptions}
 			,	$self->{NewOptions}
+			,	$self->{start_tlsOptions}
 	);
 }
 
